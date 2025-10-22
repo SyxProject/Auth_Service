@@ -4,7 +4,6 @@ const userController = require('./controllers/user.controller')
 
 app.use(express.json())
 
-app.post('/auth', userController.authenticate)
 app.post('/login', userController.login)
 app.post('/logout', userController.logout)
 app.post('/status', userController.checkStatus)

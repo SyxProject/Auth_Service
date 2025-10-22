@@ -1,13 +1,12 @@
-const { login, userService } = require('../services/user.service')
+const userService = require('../services/user.service')
 
 async function loginController(req, res) {
-  try {
-    const { name, password } = req.body
-    const result = await login(name, password)
-    res.json(result)
-  } catch (err) {
-    res.status(400).json({ error: err.message })
+  const { name, password } = req.body
+  const result = await userService.login(name, password)
+  if (result.message && result.message !== 'conexion aceptada') {
+    return res.status(400).json(result)
   }
+  res.json(result)
 }
 
 async function authenticate(req, res) {
@@ -20,29 +19,27 @@ async function authenticate(req, res) {
   }
 }
 
-async function logout(req, res) {
-  try {
-    const { name } = req.body
-    const result = await userService.logout(name)
-    res.json({ logout: result })
-  } catch (err) {
-    res.status(400).json({ error: err.message })
+async function logoutController(req, res) {
+  const { name } = req.body
+  const result = await userService.logout(name)
+  if (result.message && result.message !== 'conexion finalizada') {
+    return res.status(400).json(result)
   }
+  res.json(result)
 }
 
-async function checkStatus(req, res) {
-  try {
-    const { name } = req.body
-    const result = await userService.checkStatus(name)
-    res.json({ status: result })
-  } catch (err) {
-    res.status(400).json({ error: err.message })
+async function checkStatusController(req, res) {
+  const { name } = req.body
+  const result = await userService.checkStatus(name)
+  if (result.message) {
+    return res.status(400).json(result)
   }
+  res.json(result)
 }
 
-module.exports = { 
-  login: loginController, 
-  authenticate, 
-  logout, 
-  checkStatus 
+module.exports = {
+  login: loginController,
+  authenticate,
+  logout: logoutController,
+  checkStatus: checkStatusController
 }
