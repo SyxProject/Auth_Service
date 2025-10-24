@@ -6,5 +6,4 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 })
-
 module.exports = pool
