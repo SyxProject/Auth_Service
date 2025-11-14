@@ -1,0 +1,24 @@
+name: AuthService CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-auth:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: authService
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - run: npm install
+      - run: npm run build --if-present   # opcional, no hace nada si no existe
+      - run: npm test
