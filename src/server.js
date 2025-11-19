@@ -3,7 +3,7 @@ const cors = require('cors')
 const app = express()
 const userController = require('./controllers/user.controller')
 
-app.use(cors()) // Permite todas las conexiones
+app.use(cors()) 
 app.use(express.json())
 
 app.post('/login', userController.login)
