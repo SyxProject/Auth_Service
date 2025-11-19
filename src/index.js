@@ -1,8 +1,13 @@
 require('dotenv').config()
-const app = require('./server')
+const express = require('express')
+const consume = require('./rabbitmq/consumer')
 
-const PORT = process.env.PORT || 3000
+const app = express()
+const port = process.env.PORT || 4000
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`)
+consume()
+
+app.listen(port, () => {
+  console.log(`Event Service escuchando en puerto ${port}`)
+  startConsumer().catch(console.error)
 })
